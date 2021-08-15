@@ -1,7 +1,5 @@
 package nl.avwie.aoc.y2015
 
-import nl.avwie.aoc.common.Input
-import nl.avwie.aoc.common.md5
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
@@ -57,5 +55,38 @@ class SpecificTests {
         assertTrue { predicate("xxyxx") }
         assertFalse { predicate("uurcxstgmygtbstg") }
         assertFalse { predicate("ieodomkazucvgmuy") }
+    }
+
+    @Test
+    fun `Day 7 - Examples`() {
+        val input = """
+            123 -> x
+            456 -> y
+            x AND y -> d
+            x OR y -> e
+            x LSHIFT 2 -> f
+            y RSHIFT 2 -> g
+            NOT x -> h
+            NOT y -> i
+        """.trimIndent().lineSequence()
+
+        val gates = Day7.gates(input)
+        val result = Day7.eval("i", gates, mutableMapOf())
+        assertEquals(65079, result)
+    }
+
+    @Test
+    fun `Day 8 - Unescape`() {
+        assertEquals(0, Day8.unescape("\"\"").length)
+        assertEquals(1, Day8.unescape("\"\\x27\"").length)
+        assertEquals(7, Day8.unescape("\"aaa\\\"aaa\"").length)
+    }
+
+    @Test
+    fun `Day 8 - Encode`() {
+        assertEquals(6, Day8.encode("\"\"").length)
+        assertEquals(9, Day8.encode("\"abc\"").length)
+        assertEquals(16, Day8.encode("\"aaa\\\"aaa\"").length)
+        assertEquals(11, Day8.encode("\"\\x27\"").length)
     }
 }
