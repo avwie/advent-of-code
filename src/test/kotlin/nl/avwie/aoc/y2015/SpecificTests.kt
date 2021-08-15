@@ -89,4 +89,33 @@ class SpecificTests {
         assertEquals(16, Day8.encode("\"aaa\\\"aaa\"").length)
         assertEquals(11, Day8.encode("\"\\x27\"").length)
     }
+
+    @Test
+    fun `Day 9 - Parse`() {
+        val input = """
+            London to Dublin = 464
+            London to Belfast = 518
+            Dublin to Belfast = 141
+        """.trimIndent().lineSequence()
+
+        val parsed = Day9.parseDistances(input)
+        assertEquals(6, parsed.size)
+
+        val cities = Day9.cities(parsed)
+        assertEquals(3, cities.size)
+    }
+
+    @Test
+    fun `Day 9 - Lenghts`() {
+        val input = """
+            London to Dublin = 464
+            London to Belfast = 518
+            Dublin to Belfast = 141
+        """.trimIndent().lineSequence()
+
+        val parsed = Day9.parseDistances(input)
+        val cities = Day9.cities(parsed)
+        val length = Day9.pathLengths(cities, parsed).minOrNull()!!
+        assertEquals(605, length)
+    }
 }
