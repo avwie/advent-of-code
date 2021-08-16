@@ -106,16 +106,9 @@ class SpecificTests {
     }
 
     @Test
-    fun `Day 9 - Lenghts`() {
-        val input = """
-            London to Dublin = 464
-            London to Belfast = 518
-            Dublin to Belfast = 141
-        """.trimIndent().lineSequence()
-
-        val parsed = Day9.parseDistances(input)
-        val cities = Day9.cities(parsed)
-        //val length = Day9.pathLengths(cities, parsed).minOrNull()!!
-        //assertEquals(605, length)
+    fun `Day 10 - next`() {
+        val input = "1"
+        val results = generateSequence(input, Day10::nextSequence).drop(1).take(5).last()
+        println()
     }
 }
