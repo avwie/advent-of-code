@@ -3,6 +3,7 @@ package nl.avwie.aoc.y2015
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.Parser
 import nl.avwie.aoc.common.Base
+import nl.avwie.aoc.common.permutations
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
@@ -143,5 +144,29 @@ class SpecificTests {
 
         val seq2 = generateSequence(Base.Alphabet.fromString("ghijklmn")) { it + Base.Alphabet.ONE }.filter(combined).map { it.toString(Base.Alphabet.CODEX) }
         assertEquals("ghjaabcc", seq2.elementAt(0))
+    }
+
+    @Test
+    fun `Day 13 - parse`() {
+        val input = """
+            Alice would gain 54 happiness units by sitting next to Bob.
+            Alice would lose 79 happiness units by sitting next to Carol.
+            Alice would lose 2 happiness units by sitting next to David.
+            Bob would gain 83 happiness units by sitting next to Alice.
+            Bob would lose 7 happiness units by sitting next to Carol.
+            Bob would lose 63 happiness units by sitting next to David.
+            Carol would lose 62 happiness units by sitting next to Alice.
+            Carol would gain 60 happiness units by sitting next to Bob.
+            Carol would gain 55 happiness units by sitting next to David.
+            David would gain 46 happiness units by sitting next to Alice.
+            David would lose 7 happiness units by sitting next to Bob.
+            David would gain 41 happiness units by sitting next to Carol.
+        """.trimIndent().lineSequence()
+
+        val (set, map) = Day13.parse(input)
+        assertEquals(54, map["Alice" to "Bob"])
+        assertEquals(-7, map["Bob" to "Carol"])
+        assertEquals(4, set.size)
+        assertEquals(330, Day13.optimal(set, map))
     }
 }
