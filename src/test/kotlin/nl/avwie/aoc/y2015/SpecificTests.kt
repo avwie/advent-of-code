@@ -1,9 +1,13 @@
 package nl.avwie.aoc.y2015
 
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.Parser
+import nl.avwie.aoc.common.Base
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
 import org.junit.jupiter.api.Test
+import java.io.StringReader
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -110,5 +114,34 @@ class SpecificTests {
         val input = "1"
         val results = generateSequence(input, Day10::nextSequence).drop(1).take(5).last()
         println()
+    }
+
+    @Test
+    fun `Day 11 - predicates`() {
+        assertTrue { Day11.increasingSubSetOfLength(3)(Base.Decimal.fromString("123")) }
+        assertFalse { Day11.increasingSubSetOfLength(3)(Base.Decimal.fromString("321")) }
+        assertFalse { Day11.increasingSubSetOfLength(3)(Base.Decimal.fromString("121212121314")) }
+
+        assertTrue { Day11.disallow(listOf('1', '9'), Base.Decimal.CODEX)(Base.Decimal.fromString("234")) }
+        assertFalse { Day11.disallow(listOf('1', '9'), Base.Decimal.CODEX)(Base.Decimal.fromString("1")) }
+        assertFalse { Day11.disallow(listOf('1', '9'), Base.Decimal.CODEX)(Base.Decimal.fromString("9")) }
+        assertFalse { Day11.disallow(listOf('1', '9'), Base.Decimal.CODEX)(Base.Decimal.fromString("19")) }
+        assertFalse { Day11.disallow(listOf('1', '9'), Base.Decimal.CODEX)(Base.Decimal.fromString("23456789")) }
+
+        assertTrue { Day11.nonOverlappingPairs(2)(Base.Decimal.fromString("112344")) }
+        assertFalse { Day11.nonOverlappingPairs(2)(Base.Decimal.fromString("11122")) }
+        assertFalse { Day11.nonOverlappingPairs(2)(Base.Decimal.fromString("123456")) }
+
+        val combined = Day11.combined(
+            Day11.increasingSubSetOfLength(3),
+            Day11.disallow(listOf('i', 'o', 'l'), Base.Alphabet.CODEX),
+            Day11.nonOverlappingPairs(2)
+        )
+
+        val seq1 = generateSequence(Base.Alphabet.fromString("abcdefgh")) { it + Base.Alphabet.ONE }.filter(combined).map { it.toString(Base.Alphabet.CODEX) }
+        assertEquals("abcdffaa", seq1.elementAt(0))
+
+        val seq2 = generateSequence(Base.Alphabet.fromString("ghijklmn")) { it + Base.Alphabet.ONE }.filter(combined).map { it.toString(Base.Alphabet.CODEX) }
+        assertEquals("ghjaabcc", seq2.elementAt(0))
     }
 }

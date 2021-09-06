@@ -16,6 +16,7 @@ object Input {
             regex.matchEntire(line)!!.groupValues
         }
 
+    fun inputStream(year: Int, day: Int): InputStream = resourceAsStream("$year/day$day.txt")
     fun input(year: Int, day: Int): String = read("$year/day$day.txt")
     fun inputLines(year: Int, day: Int): Sequence<String> = readLines("$year/day$day.txt")
     fun inputLinesRegex(year: Int, day: Int, regex: Regex) = readInputRegex(inputLines(year, day), regex)

@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.beust:klaxon:5.5")
     testImplementation(kotlin("test"))
 }
 
