@@ -134,4 +134,24 @@ class AllDays {
     fun `Day 13 - Part 2`() {
         assertEquals(668, Day13.part2())
     }
+
+    @Test
+    fun `Day 14 - Part 1`() {
+        assertEquals(2696, Day14.part1())
+    }
+
+    @Test
+    fun `Day 14 - Part 2`() {
+        assertEquals(1084, Day14.part2())
+    }
+
+    @Test
+    fun `Day 15 - Part 1`() {
+        assertEquals(222870, Day15.part1())
+    }
+
+    @Test
+    fun `Day 15 - Part 2`() {
+        assertEquals(117936, Day15.part2())
+    }
 }

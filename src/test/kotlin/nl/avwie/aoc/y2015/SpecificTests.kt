@@ -169,4 +169,13 @@ class SpecificTests {
         assertEquals(4, set.size)
         assertEquals(330, Day13.optimal(set, map))
     }
+
+    @Test
+    fun `Day 15 - example`() {
+        val butterScotch = Day15.Ingredient("Butterscotch", -1, -2, 6, 3, 8)
+        val cinnamon = Day15.Ingredient("Cinnamon", 2, 3, -2, -1, 3)
+        val amounts = listOf(44, 56)
+        val score = Day15.score(amounts, listOf(butterScotch, cinnamon))
+        assertEquals(62842880, score)
+    }
 }
