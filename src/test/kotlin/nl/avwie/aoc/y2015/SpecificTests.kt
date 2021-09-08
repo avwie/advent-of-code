@@ -3,6 +3,7 @@ package nl.avwie.aoc.y2015
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.Parser
 import nl.avwie.aoc.common.Base
+import nl.avwie.aoc.common.Input
 import nl.avwie.aoc.common.permutations
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
