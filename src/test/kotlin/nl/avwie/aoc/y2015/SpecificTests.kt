@@ -179,4 +179,27 @@ class SpecificTests {
         val score = Day15.score(amounts, listOf(butterScotch, cinnamon))
         assertEquals(62842880, score)
     }
+
+    @Test
+    fun `Day 17 - combinations`() {
+        val containers = listOf(20, 15, 10, 5, 5)
+        val result = Day17.combinations(25, containers)
+        assertEquals(4, result.size)
+    }
+
+    @Test
+    fun `Day 18 - animate`() {
+        val input = """
+            .#.#.#
+            ...##.
+            #....#
+            ..#...
+            #.#..#
+            ####..
+        """.trimIndent().lineSequence()
+
+        val (set, dims) = Day18.parse(input)
+        val animate = Day18.animate(set, dims).take(4).last().size
+        assertEquals(4, animate)
+    }
 }
