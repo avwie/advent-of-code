@@ -5,6 +5,7 @@ import com.beust.klaxon.Parser
 import nl.avwie.aoc.common.Base
 import nl.avwie.aoc.common.Input
 import nl.avwie.aoc.common.permutations
+import nl.avwie.aoc.common.search.BackPropagation
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
@@ -201,5 +202,43 @@ class SpecificTests {
         val (set, dims) = Day18.parse(input)
         val animate = Day18.animate(set, dims).take(4).last().size
         assertEquals(4, animate)
+    }
+
+    @Test
+    fun `Day 19 - molecules - 1`() {
+        val lines = """
+            H => HO
+            H => OH
+            O => HH
+            
+            HOH
+        """.trimIndent().lineSequence()
+
+        val (rules, molecule) = Day19.parse(lines)
+        val result = Day19.molecules(rules, molecule)
+        assertEquals(4, result.size)
+    }
+
+    @Test
+    fun `Day 19 - molecules - 2`() {
+        val lines = """
+            H => HO
+            H => OH
+            O => HH
+            
+            HOHOHO
+        """.trimIndent().lineSequence()
+
+        val (rules, molecule) = Day19.parse(lines)
+        val result = Day19.molecules(rules, molecule)
+        assertEquals(7, result.size)
+    }
+
+    @Test
+    fun `Day 21 - battle`() {
+        val left = 8 to Day21.Stat(0, 5, 5)
+        val right = 12 to Day21.Stat(0, 7, 2)
+        val battle = Day21.battle(left, right).last()
+        assertEquals(2 to 0, battle)
     }
 }

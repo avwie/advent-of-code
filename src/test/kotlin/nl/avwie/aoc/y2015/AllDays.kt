@@ -184,4 +184,34 @@ class AllDays {
     fun `Day 18 - Part 2`() {
         assertEquals(781, Day18.part2())
     }
+
+    @Test
+    fun `Day 19 - Part 1`() {
+        assertEquals(509, Day19.part1())
+    }
+
+    @Test
+    fun `Day 19 - Part 2`() {
+        assertEquals(195, Day19.part2())
+    }
+
+    @Test
+    fun `Day 20 - Part 1`() {
+        assertEquals(786240, Day20.part1())
+    }
+
+    @Test
+    fun `Day 20 - Part 2`() {
+        assertEquals(831600, Day20.part2())
+    }
+
+    @Test
+    fun `Day 21 - Part 1`() {
+        assertEquals(91, Day21.part1())
+    }
+
+    @Test
+    fun `Day 21 - Part 2`() {
+        assertEquals(158, Day21.part2())
+    }
 }
