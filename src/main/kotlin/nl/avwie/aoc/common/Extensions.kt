@@ -21,3 +21,8 @@ fun <T> List<T>.permutations(): List<List<T>> {
     }
     return perms
 }
+
+fun <T> Iterable<T>.mostCommonOrNull(): T? = this
+    .groupBy { it }
+    .maxByOrNull { (_, l) -> l.size }
+    ?.key

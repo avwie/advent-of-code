@@ -24,4 +24,14 @@ class AllDays {
     fun `Day 2 - Part 2`() {
         assertEquals(2006917119, Day2.part2())
     }
+
+    @Test
+    fun `Day 3 - Part 1`() {
+        assertEquals(4160394, Day3.part1())
+    }
+
+    @Test
+    fun `Day 3 - Part 2`() {
+        assertEquals(4125600, Day3.part2())
+    }
 }
