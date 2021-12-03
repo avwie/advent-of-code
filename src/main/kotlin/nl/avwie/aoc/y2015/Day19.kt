@@ -6,8 +6,6 @@ import nl.avwie.aoc.common.search.BackPropagation
 
 object Day19 : Day<Int, Int> {
 
-    data class SearchNode(val molecule: String, val replacements: Int)
-
     override fun part1(): Int = parse(Input.inputLines(2015, 19)).let { (rules, molecule) -> molecules(rules, molecule) }.size
 
     override fun part2(): Int = parse(Input.inputLines(2015, 19))

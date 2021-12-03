@@ -3,7 +3,7 @@ package nl.avwie.aoc.y2015
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class AllDays {
+class Year2015 {
 
     @Test
     fun `Day 1 - Part 1`() {

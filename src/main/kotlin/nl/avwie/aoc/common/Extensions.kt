@@ -7,22 +7,18 @@ private val md5 = MessageDigest.getInstance("MD5")
 fun ByteArray.toHex(): String = joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 fun String.md5(): ByteArray = md5.digest(this.toByteArray())
 
-fun <T> List<T>.permutations(): List<List<T>> {
-    if (this.size == 1) return listOf(this)
-
-    val perms = mutableListOf<List<T>>()
-    val toInsert = this[0]
-    this.drop(1).permutations().forEach { perm ->
-        for (i in 0..perm.size) {
-            val newPerm = perm.toMutableList()
-            newPerm.add(i, toInsert)
-            perms.add(newPerm)
-        }
+fun Long.toDigits() : List<Int> {
+    val digits = mutableListOf<Int>()
+    var remaining = this
+    while (remaining > 0) {
+        digits.add((remaining % 10).toInt())
+        remaining /= 10L
     }
-    return perms
+    return digits.reversed()
 }
 
-fun <T> Iterable<T>.mostCommonOrNull(): T? = this
-    .groupBy { it }
-    .maxByOrNull { (_, l) -> l.size }
-    ?.key
+fun List<Int>.toLong() : Long = this.fold(0L) { acc, d ->
+    acc * 10 + d
+}
+
+fun <T> T.reduceRepeated(n: Int, block: (T) -> T): T = (0 until n).fold(this) { acc, _ -> block(acc) }

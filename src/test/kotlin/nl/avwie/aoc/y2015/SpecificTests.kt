@@ -113,13 +113,6 @@ class SpecificTests {
     }
 
     @Test
-    fun `Day 10 - next`() {
-        val input = "1"
-        val results = generateSequence(input, Day10::nextSequence).drop(1).take(5).last()
-        println()
-    }
-
-    @Test
     fun `Day 11 - predicates`() {
         assertTrue { Day11.increasingSubSetOfLength(3)(Base.Decimal.fromString("123")) }
         assertFalse { Day11.increasingSubSetOfLength(3)(Base.Decimal.fromString("321")) }

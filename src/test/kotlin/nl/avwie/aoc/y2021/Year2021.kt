@@ -3,7 +3,7 @@ package nl.avwie.aoc.y2021
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AllDays {
+class Year2021 {
 
     @Test
     fun `Day 1 - Part 1`() {
