@@ -20,4 +20,5 @@ object Input {
     fun input(year: Int, day: Int): String = read("$year/day$day.txt")
     fun inputLines(year: Int, day: Int): Sequence<String> = readLines("$year/day$day.txt")
     fun inputLinesRegex(year: Int, day: Int, regex: Regex) = readInputRegex(inputLines(year, day), regex)
+    fun inputLinesRegex(year: Int, day: Int, regex: String) = readInputRegex(inputLines(year, day), Regex(regex))
 }

@@ -88,6 +88,7 @@ object Day20 : Day<Long, Long> {
             Direction.East -> pixels.filter { it.i == (width - 1).toLong() }.map { it.j }.toSet()
             Direction.South -> pixels.filter { it.j == 0L }.map { it.i }.toSet()
             Direction.West -> pixels.filter { it.i == 0L }.map { it.j }.toSet()
+            else -> setOf()
         }
 
         fun crop(amount: Int) = copy(
