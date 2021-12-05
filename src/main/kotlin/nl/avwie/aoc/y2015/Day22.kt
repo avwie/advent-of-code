@@ -105,10 +105,10 @@ object Day22 : Day<Int, Int> {
         class Node(val state: GameState, val magicUsed: List<Magic>, val previous: Node?) {
             val magicAvailable = listOf(MagicMissile, Drain, Shield, Poison, Recharge)
                 .filter { it.cost <= state.player.mana }
-                .filter { magic -> !state.activeMagic.filter { it.timer > 0 }.any { it.name == magic.name } }
+                .filter { magic -> state.activeMagic.filter { it.timer > 0 }.none { it.name == magic.name } }
         }
 
-        override fun isFound(item: Node): Boolean = item.state.playerWins
+        override fun isFound(item: Node): Boolean = !item.state.bossWins && item.state.playerWins
 
         override fun next(item: Node): Iterable<Node> {
             if (item.state.bossWins)

@@ -222,6 +222,6 @@ class Year2015 {
 
     @Test
     fun `Day 22 - Part 2`() {
-        assertEquals(158, Day22.part2())
+        assertEquals(1289, Day22.part2())
     }
 }

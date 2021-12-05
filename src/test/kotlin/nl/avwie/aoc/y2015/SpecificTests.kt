@@ -262,7 +262,6 @@ class SpecificTests {
         val player = Day22.Entity(10, 0, 250)
         val boss = Day22.Entity(14, 0, 0)
         var state = Day22.GameState(player, boss, listOf(), 8, 0)
-        assertTrue { state.undecided }
         state = state.turn(Recharge)
         state = state.turn(null)
         state = state.turn(Shield)
