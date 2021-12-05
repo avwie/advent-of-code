@@ -1,16 +1,15 @@
 package nl.avwie.aoc.y2015
 
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.Parser
 import nl.avwie.aoc.common.Base
-import nl.avwie.aoc.common.Input
-import nl.avwie.aoc.common.permutations
-import nl.avwie.aoc.common.search.BackPropagation
+import nl.avwie.aoc.y2015.Day22.Drain
+import nl.avwie.aoc.y2015.Day22.MagicMissile
+import nl.avwie.aoc.y2015.Day22.Poison
+import nl.avwie.aoc.y2015.Day22.Recharge
+import nl.avwie.aoc.y2015.Day22.Shield
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
 import org.junit.jupiter.api.Test
-import java.io.StringReader
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -233,5 +232,51 @@ class SpecificTests {
         val right = 12 to Day21.Stat(0, 7, 2)
         val battle = Day21.battle(left, right).last()
         assertEquals(2 to 0, battle)
+    }
+
+    @Test
+    fun `Day 22 - Turns 1`() {
+        val player = Day22.Entity(10, 0, 250)
+        val boss = Day22.Entity(13, 0, 0)
+        var state = Day22.GameState(player, boss, listOf(), 8)
+
+        state = state.turn(Poison)
+        assertEquals(10, state.player.hitPoints)
+        assertEquals(77, state.player.mana)
+
+        state = state.turn(null)
+        assertEquals(10, state.boss.hitPoints)
+        assertEquals(2, state.player.hitPoints)
+
+        state = state.turn(MagicMissile)
+        assertEquals(2, state.player.hitPoints)
+        assertEquals(3, state.boss.hitPoints)
+
+        state = state.turn(null)
+        assertTrue { state.playerWins }
+        assertFalse { state.bossWins }
+    }
+
+    @Test
+    fun `Day 22 - Turns 2`() {
+        val player = Day22.Entity(10, 0, 250)
+        val boss = Day22.Entity(14, 0, 0)
+        var state = Day22.GameState(player, boss, listOf(), 8)
+        assertTrue { state.undecided }
+        state = state.turn(Recharge)
+        state = state.turn(null)
+        state = state.turn(Shield)
+        state = state.turn(null)
+        state = state.turn(Drain)
+        state = state.turn(null)
+        state = state.turn(Poison)
+        state = state.turn(null)
+        state = state.turn(MagicMissile)
+        state = state.turn(null)
+        assertEquals(1, state.player.hitPoints)
+        assertEquals(114, state.player.mana)
+        assertEquals(-1, state.boss.hitPoints)
+        assertTrue { state.playerWins }
+        assertFalse { state.bossWins }
     }
 }

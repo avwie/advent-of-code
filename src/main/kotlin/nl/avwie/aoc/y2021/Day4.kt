@@ -1,7 +1,6 @@
 package nl.avwie.aoc.y2021
 
 import nl.avwie.aoc.common.*
-import kotlin.math.sqrt
 
 object Day4 : Day<Int, Int> {
 
@@ -10,8 +9,8 @@ object Day4 : Day<Int, Int> {
     override fun part1(): Int = finalBoards.filter { it.isWinner }.minByOrNull { it.turns}!!.score
     override fun part2(): Int = finalBoards.filter { it.isWinner }.maxByOrNull { it.turns }!!.score
 
-    private fun play(draws: List<Int>, initialBoards: List<BingoBoard>): List<BingoBoard> = draws
-        .fold(initialBoards) { boards, number ->
+    private fun play(draws: List<Int>, initialBoards: List<BingoBoard>): List<BingoBoard> =
+        draws.fold(initialBoards) { boards, number ->
             boards.map { board -> board.mark(number) }
         }
 
