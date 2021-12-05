@@ -2,7 +2,6 @@ package nl.avwie.aoc.y2015
 
 import nl.avwie.aoc.common.Day
 import nl.avwie.aoc.common.Input
-import nl.avwie.aoc.common.search.BackPropagation
 
 object Day19 : Day<Int, Int> {
 

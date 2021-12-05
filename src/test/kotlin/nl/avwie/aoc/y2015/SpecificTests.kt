@@ -238,7 +238,7 @@ class SpecificTests {
     fun `Day 22 - Turns 1`() {
         val player = Day22.Entity(10, 0, 250)
         val boss = Day22.Entity(13, 0, 0)
-        var state = Day22.GameState(player, boss, listOf(), 8)
+        var state = Day22.GameState(player, boss, listOf(), 8, 0)
 
         state = state.turn(Poison)
         assertEquals(10, state.player.hitPoints)
@@ -261,7 +261,7 @@ class SpecificTests {
     fun `Day 22 - Turns 2`() {
         val player = Day22.Entity(10, 0, 250)
         val boss = Day22.Entity(14, 0, 0)
-        var state = Day22.GameState(player, boss, listOf(), 8)
+        var state = Day22.GameState(player, boss, listOf(), 8, 0)
         assertTrue { state.undecided }
         state = state.turn(Recharge)
         state = state.turn(null)
