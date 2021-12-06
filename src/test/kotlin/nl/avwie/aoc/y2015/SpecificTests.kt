@@ -278,4 +278,11 @@ class SpecificTests {
         assertTrue { state.playerWins }
         assertFalse { state.bossWins }
     }
+
+    @Test
+    fun `Day 23 - Run`() {
+        val input = """
+            
+        """.trimIndent()
+    }
 }
