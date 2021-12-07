@@ -26,4 +26,16 @@ class SpecificTests {
         val co2 = Day3.filterByKey(lines, '0').toInt(2)
         assertEquals(230, co2 * oxygen)
     }
+
+    @Test
+    fun `Day 7 - fuel`() {
+        val input = Day7.parse("16,1,2,0,4,2,7,1,2,14")
+        assertEquals(37, Day7.linearCost(input, 2))
+        assertEquals(41, Day7.linearCost(input, 1))
+        assertEquals(39, Day7.linearCost(input, 3))
+        assertEquals(71, Day7.linearCost(input, 10))
+
+        assertEquals(206, Day7.polynomialCost(input, 2))
+        assertEquals(168, Day7.polynomialCost(input, 5))
+    }
 }
