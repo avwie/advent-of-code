@@ -6,6 +6,7 @@ import nl.avwie.aoc.y2015.Day22.MagicMissile
 import nl.avwie.aoc.y2015.Day22.Poison
 import nl.avwie.aoc.y2015.Day22.Recharge
 import nl.avwie.aoc.y2015.Day22.Shield
+import nl.avwie.aoc.y2015.Day24.QE
 import nl.avwie.aoc.y2015.Day5.combined
 import nl.avwie.aoc.y2015.Day5.oneLetterWithOneBetween
 import nl.avwie.aoc.y2015.Day5.pairOfNonOverlappingLetters
@@ -280,9 +281,9 @@ class SpecificTests {
     }
 
     @Test
-    fun `Day 23 - Run`() {
-        val input = """
-            
-        """.trimIndent()
+    fun `Day 24 - Options`() {
+        val input = listOf(1, 2, 3, 4, 5, 7, 8, 9, 10, 11)
+        val winner = Day24.smallestGroupWithLargestQED(input, 20)
+        assertEquals(99, winner.QE())
     }
 }

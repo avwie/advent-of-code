@@ -1,6 +1,15 @@
 package nl.avwie.aoc.common
 
-fun <T> Iterable<T>.combinations(count: Int) = combinations(this, count)
+fun <T> combinations(seed: Iterable<T>, count: Int): List<List<T>> {
+
+    fun inner(acc: List<List<T>>, remaining: Int): List<List<T>> = when (remaining) {
+        0 -> acc
+        count ->  inner(seed.map { s -> listOf(s) }, remaining - 1)
+        else -> inner(seed.flatMap { s -> acc.map { list -> list + s } }, remaining - 1)
+    }
+
+    return inner(emptyList(), count)
+}
 
 fun <T> List<T>.permutations(): List<List<T>> {
     if (this.size == 1) return listOf(this)

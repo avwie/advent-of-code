@@ -42,7 +42,7 @@ object Day17 : Day<Long, Long> {
         return next
     }
 
-    private fun neighborOffsets(dims: Int) = offsetCache.getOrPut(dims) { listOf(-1, 0, 1).combinations(dims).filter { c -> !c.all { it == 0 } } }
+    private fun neighborOffsets(dims: Int) = offsetCache.getOrPut(dims) { combinations(listOf(-1, 0, 1), dims).filter { c -> !c.all { it == 0 } } }
 
     private fun neighborsOf(point: List<Int>): List<List<Int>> = neighborCache.getOrPut(point) {
         neighborOffsets(point.size).map { neighbor -> point.zip(neighbor).map { (i, di) -> i + di } }

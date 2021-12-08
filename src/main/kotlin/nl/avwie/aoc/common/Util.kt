@@ -16,14 +16,3 @@ fun <T> product(la: List<T>, lb: List<T>, plus: (T, T) -> T): List<T> {
     }
     return acc
 }
-
-fun <T> combinations(seed: Iterable<T>, count: Int): List<List<T>> {
-
-    fun inner(acc: List<List<T>>, remaining: Int): List<List<T>> = when (remaining) {
-        0 -> acc
-        count ->  inner(seed.map { s -> listOf(s) }, remaining - 1)
-        else -> inner(seed.flatMap { s -> acc.map { list -> list + s } }, remaining - 1)
-    }
-
-    return inner(emptyList(), count)
-}
