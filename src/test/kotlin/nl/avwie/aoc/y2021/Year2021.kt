@@ -82,6 +82,6 @@ class Year2021 {
 
     @Test
     fun `Day 8 - Part 2`() {
-        assertEquals(96678050, Day8.part2())
+        assertEquals(1012089, Day8.part2())
     }
 }

@@ -38,4 +38,10 @@ class SpecificTests {
         assertEquals(206, Day7.polynomialCost(input, 2))
         assertEquals(168, Day7.polynomialCost(input, 5))
     }
+
+    @Test
+    fun `Day 8 - decode`() {
+        val input = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
+        //Day8.decode(input)
+    }
 }
