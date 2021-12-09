@@ -9,12 +9,12 @@ object Day4 : Day<Int, Int> {
     override fun part1(): Int = finalBoards.filter { it.isWinner }.minByOrNull { it.turns}!!.score
     override fun part2(): Int = finalBoards.filter { it.isWinner }.maxByOrNull { it.turns }!!.score
 
-    private fun play(draws: List<Int>, initialBoards: List<BingoBoard>): List<BingoBoard> =
+    private fun play(draws: List<Int>, initialBoards: List<BingoMap>): List<BingoMap> =
         draws.fold(initialBoards) { boards, number ->
             boards.map { board -> board.mark(number) }
         }
 
-    data class BingoBoard(override val values: List<Int>, val marked: List<Int>): SquareBoard<Int> {
+    data class BingoMap(override val values: List<Int>, val marked: List<Int>): SquareMap<Int> {
         val isWinner = (rows() + cols()).any { it.isComplete() }
         val score = values.filter { !marked.contains(it) }.sum() * (marked.lastOrNull() ?: 0)
         val turns = marked.size
@@ -24,14 +24,14 @@ object Day4 : Day<Int, Int> {
         private fun List<Int>.isComplete(): Boolean = this.all { marked.contains(it) }
     }
 
-    private fun parse(input: String): Pair<List<Int>, List<BingoBoard>> {
+    private fun parse(input: String): Pair<List<Int>, List<BingoMap>> {
         val segments = input.split("\n\n")
         val draws = segments.first().split(",").map { it.toInt() }
         val boards = segments.drop(1).map { block ->
             block.replace("\n", " ")
                 .windowed(2, 3)
                 .map { it.trim().toInt() }
-                .let { BingoBoard(it, listOf()) }
+                .let { BingoMap(it, listOf()) }
         }
         return draws to boards
     }

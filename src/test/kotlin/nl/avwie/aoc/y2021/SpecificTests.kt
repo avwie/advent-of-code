@@ -40,8 +40,18 @@ class SpecificTests {
     }
 
     @Test
-    fun `Day 8 - decode`() {
-        val input = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
-        //Day8.decode(input)
+    fun `Day 9 - lowpoints`() {
+        val input = """
+            2199943210
+            3987894921
+            9856789892
+            8767896789
+            9899965678
+        """.trimIndent().lineSequence()
+
+        val map = Day9.parse(input)
+        val lowPoints = Day9.lowPoints(map)
+        val risk = lowPoints.sumOf { point -> Day9.risk(map, point) }
+        assertEquals(15, risk)
     }
 }
