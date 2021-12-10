@@ -285,4 +285,19 @@ class SpecificTests {
         val groups = Day24.search(20, input, smallest = true)
         assertEquals(99, groups.first().QE)
     }
+
+    @Test
+    fun `Day 25 - rowColToIndex`() {
+        assertEquals(19, Day25.rowColToIndex(3, 4))
+        assertEquals(9, Day25.rowColToIndex(2, 3))
+    }
+
+    @Test
+    fun `Day 25 - codes`() {
+        val generator = Day25.codes(20151125, 252533, 33554393)
+        val items = generator.take(3).toList()
+        assertEquals(20151125, items[0])
+        assertEquals(31916031, items[1])
+        assertEquals(18749137, items[2])
+    }
 }
