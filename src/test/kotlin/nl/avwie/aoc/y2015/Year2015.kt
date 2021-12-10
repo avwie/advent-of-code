@@ -237,11 +237,11 @@ class Year2015 {
 
     @Test
     fun `Day 24 - Part 1`() {
-        assertEquals(307, Day24.part1())
+        assertEquals(11266889531, Day24.part1())
     }
 
     @Test
     fun `Day 24 - Part 2`() {
-        assertEquals(160, Day24.part2())
+        assertEquals(77387711, Day24.part2())
     }
 }
