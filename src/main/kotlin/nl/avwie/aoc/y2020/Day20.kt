@@ -145,7 +145,7 @@ object Day20 : Day<Long, Long> {
             }
 
             return matches
-                .map { tile -> copy(tiles = tiles + tile, options = options - options.filter { it.id == tile.id }) }
+                .map { tile -> copy(tiles = tiles + tile, options = options - options.filter { it.id == tile.id }.toSet()) }
                 .filter { image -> image.isValid }
         }
 

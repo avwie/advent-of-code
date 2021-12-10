@@ -38,7 +38,7 @@ object Day8 : Day<Long, Long> {
         while (instructionPointer < program.size) {
             if (visited.contains(instructionPointer)) {
                 yield(acc to true)
-                break;
+                break
             }
             visited.add(instructionPointer)
             program[instructionPointer].also { (op, data) ->

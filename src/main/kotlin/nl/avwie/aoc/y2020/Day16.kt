@@ -37,7 +37,7 @@ object Day16 : Day<Long, Long> {
 
     fun validate(ticket: List<Int>, fields: List<Field>): List<Int> = ticket.filter { d -> fields.all { f -> !f.isValid(d) } }
 
-    fun errorRate(tickets: List<List<Int>>, fields: List<Field>): Int = tickets.flatMap { other -> Day16.validate(other, fields) }.sum()
+    fun errorRate(tickets: List<List<Int>>, fields: List<Field>): Int = tickets.flatMap { other -> validate(other, fields) }.sum()
 
     fun fieldOrder(fields: List<Field>, tickets: List<List<Int>>): List<Field> {
 

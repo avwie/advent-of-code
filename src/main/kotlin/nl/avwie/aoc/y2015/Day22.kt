@@ -1,7 +1,6 @@
 package nl.avwie.aoc.y2015
 
 import nl.avwie.aoc.common.Day
-import nl.avwie.aoc.common.search.BackTracking
 import nl.avwie.aoc.common.search.Dijkstra
 import nl.avwie.aoc.common.search.Implementation
 import nl.avwie.aoc.common.search.WithCost
@@ -17,7 +16,7 @@ object Day22 : Day<Int, Int> {
         val player = Entity(50, 0, 500)
         val initialState = GameState(player, boss, listOf(), 8, hardMode)
         val search = Dijkstra(SearchImplementation())
-        val initialSearchNode = SearchImplementation.Node(initialState, listOf(), null)
+        val initialSearchNode = SearchImplementation.Node(initialState, listOf())
         val result = search.search(initialSearchNode)
         return result?.magicUsed?.sumOf { it.cost } ?: 0
     }
@@ -71,7 +70,6 @@ object Day22 : Day<Int, Int> {
     ) {
         val bossWins: Boolean = player.hitPoints <= 0
         val playerWins: Boolean = boss.hitPoints <= 0
-        val undecided: Boolean = (!bossWins && !playerWins) || (bossWins && playerWins)
 
         fun turn(playerAction: Magic?): GameState {
             // in hard mode we substract on player turn
@@ -102,7 +100,7 @@ object Day22 : Day<Int, Int> {
 
     class SearchImplementation : Implementation<SearchImplementation.Node>, WithCost<SearchImplementation.Node> {
 
-        class Node(val state: GameState, val magicUsed: List<Magic>, val previous: Node?) {
+        class Node(val state: GameState, val magicUsed: List<Magic>) {
             val magicAvailable = listOf(MagicMissile, Drain, Shield, Poison, Recharge)
                 .filter { it.cost <= state.player.mana }
                 .filter { magic -> state.activeMagic.filter { it.timer > 0 }.none { it.name == magic.name } }
@@ -115,7 +113,7 @@ object Day22 : Day<Int, Int> {
                 return listOf()
 
             return item.magicAvailable.map { magic ->
-                Node(item.state.turn(magic).turn(null), item.magicUsed + magic, item)
+                Node(item.state.turn(magic).turn(null), item.magicUsed + magic)
             }
         }
 

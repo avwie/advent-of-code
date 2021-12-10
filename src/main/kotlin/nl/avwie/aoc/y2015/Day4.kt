@@ -8,7 +8,7 @@ import java.security.MessageDigest
 object Day4 : Day<Int, Int> {
 
     private val SEED = "yzbqklnj"
-    private val md5 = MessageDigest.getInstance("MD5");
+    private val md5 = MessageDigest.getInstance("MD5")
 
     override fun part1(): Int = hashes(SEED)
         .withIndex()

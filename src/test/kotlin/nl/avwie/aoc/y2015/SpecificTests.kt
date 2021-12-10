@@ -37,21 +37,21 @@ class SpecificTests {
 
     @Test
     fun `Day 5 - Non overlapping letters`() {
-        assertTrue { Day5.pairOfNonOverlappingLetters("xyxy") }
-        assertTrue { Day5.pairOfNonOverlappingLetters("aabcdefgaa") }
-        assertTrue { Day5.pairOfNonOverlappingLetters("qjhvhtzxzqqjkmpb") }
-        assertTrue { Day5.pairOfNonOverlappingLetters("xxyxx") }
-        assertTrue { Day5.pairOfNonOverlappingLetters("uurcxstgmygtbstg") }
-        assertFalse { Day5.pairOfNonOverlappingLetters("baaab") }
-        assertFalse { Day5.pairOfNonOverlappingLetters("ieodomkazucvgmuy") }
+        assertTrue { pairOfNonOverlappingLetters("xyxy") }
+        assertTrue { pairOfNonOverlappingLetters("aabcdefgaa") }
+        assertTrue { pairOfNonOverlappingLetters("qjhvhtzxzqqjkmpb") }
+        assertTrue { pairOfNonOverlappingLetters("xxyxx") }
+        assertTrue { pairOfNonOverlappingLetters("uurcxstgmygtbstg") }
+        assertFalse { pairOfNonOverlappingLetters("baaab") }
+        assertFalse { pairOfNonOverlappingLetters("ieodomkazucvgmuy") }
     }
 
     @Test
     fun `Day 5 - One letter with one between`() {
-        assertTrue { Day5.oneLetterWithOneBetween("qjhvhtzxzqqjkmpb") }
-        assertTrue { Day5.oneLetterWithOneBetween("xxyxx") }
-        assertFalse { Day5.oneLetterWithOneBetween("uurcxstgmygtbstg") }
-        assertTrue { Day5.oneLetterWithOneBetween("ieodomkazucvgmuy") }
+        assertTrue { oneLetterWithOneBetween("qjhvhtzxzqqjkmpb") }
+        assertTrue { oneLetterWithOneBetween("xxyxx") }
+        assertFalse { oneLetterWithOneBetween("uurcxstgmygtbstg") }
+        assertTrue { oneLetterWithOneBetween("ieodomkazucvgmuy") }
     }
 
     @Test

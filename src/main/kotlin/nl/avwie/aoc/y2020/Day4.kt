@@ -52,9 +52,9 @@ object Day4 : Day<Long, Long> {
     fun isValid(map: Map<String, String>, keys: Set<String>): Boolean = keys.all { key ->  isValidKey(key, map[key]!!) }
 
     fun isValidKey(key: String, value: String): Boolean = when (key) {
-        "byr" -> value.toInt().let { it in 1920..2002 }
-        "iyr" -> value.toInt().let { it in 2010..2020 }
-        "eyr" -> value.toInt().let { it in 2020..2030 }
+        "byr" -> value.toInt() in 1920..2002
+        "iyr" -> value.toInt() in 2010..2020
+        "eyr" -> value.toInt() in 2020..2030
         "hgt" -> setOf("cm", "in")
             .firstOrNull { unit -> value.contains(unit) }
             ?.let { unit ->

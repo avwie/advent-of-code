@@ -11,7 +11,7 @@ object Day14 : Day<Long, Long> {
     override fun part1(): Long = evaluate(input, 1)
     override fun part2(): Long = evaluate(input, 2)
 
-    fun parse(input: Sequence<String>) = input.map { Command.fromString(it) }
+    fun parse(input: Sequence<String>) = input.map { fromString(it) }
 
     fun evaluate(commands: List<Command>, version: Int): Long {
         return commands.fold(Command.Mask("X".repeat(36)) to mutableMapOf<Long, Long>()) { (mask, memory), command ->
@@ -53,8 +53,8 @@ object Day14 : Day<Long, Long> {
 
     sealed class Command {
         companion object {
-            val MASK = Regex("mask = ([X,1,0]{36})")
-            val WRITE = Regex("mem\\[(\\d*)\\] = (\\d*)")
+            val MASK = Regex("mask = ([X,10]{36})")
+            val WRITE = Regex("mem\\[(\\d*)] = (\\d*)")
 
             fun fromString(input: String): Command = when {
                 input.startsWith("mask") -> MASK.matchEntire(input)!!.groupValues.let { (_, m) -> Mask(m) }
