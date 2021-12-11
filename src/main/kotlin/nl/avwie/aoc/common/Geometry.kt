@@ -63,4 +63,9 @@ data class Point(val x: Int, val y: Int) {
             current.copy(x = current.x + dx, y = current.y + dy)
         }.takeWhileInclusive { current -> current != other }
     }
+
+    fun neighbors(diagonal: Boolean = true): List<Point> = when {
+        diagonal -> offsets
+        else -> offsets.filter { (dx, dy) -> dx == 0 || dy == 0 }
+    }.map { (dx, dy) -> copy(x = x + dx, y = y + dy) }
 }
