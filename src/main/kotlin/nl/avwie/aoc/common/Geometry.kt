@@ -1,5 +1,6 @@
 package nl.avwie.aoc.common
 
+import java.lang.IllegalArgumentException
 import kotlin.math.abs
 
 enum class RotationalOrientation {
@@ -8,27 +9,33 @@ enum class RotationalOrientation {
     CounterClockwise
 }
 
-enum class Direction {
-    North,
-    East,
-    South,
-    West,
-    Indeterminate;
+enum class Direction(val angle: Int) {
+    North(0),
+    East(90),
+    South(180),
+    West(270);
 
     fun opposite(): Direction = when (this) {
         North -> South
         East -> West
         South -> North
         West -> East
-        Indeterminate -> Indeterminate
+    }
+
+    fun rotate(orientation: RotationalOrientation) = when (orientation) {
+        RotationalOrientation.Collinear -> this
+        RotationalOrientation.Clockwise -> fromAngle(this.angle + 90 + 360)!!
+        RotationalOrientation.CounterClockwise -> fromAngle(this.angle - 90 + 360)!!
     }
 
     companion object {
-        fun get(p1: Vector2D<Int>, p2: Vector2D<Int>) = when (Alignment.get(p1, p2)) {
+        fun get(p1: Vector2D<Int>, p2: Vector2D<Int>): Direction? = when (Alignment.get(p1, p2)) {
             Alignment.Horizontal -> if (p1.x < p2.x) West else East
             Alignment.Vertical -> if (p1.y < p2.y) South else North
-            else -> Indeterminate
+            else -> null
         }
+
+        fun fromAngle(angle: Int): Direction? = values().firstOrNull { it.angle == angle % 360 }
     }
 }
 
@@ -137,6 +144,19 @@ data class Rectangle<T>(val origin: Vector2D<T>, val area: Area<T>, private val 
         val height = ops.min(v1, v0)
         return Rectangle(u0, v0, width, height, ops)
     }
+}
+
+data class DirectedVector<T>(val position: Vector2D<T>, val direction: Direction) {
+    private val ops = position.ops
+
+    fun advance(amount: T): DirectedVector<T> = when (direction) {
+        Direction.North -> copy(position = position + Vector2D(ops.zero, ops.neg(amount), ops))
+        Direction.East -> copy(position = position + Vector2D(amount, ops.zero, ops))
+        Direction.South -> copy(position = position + Vector2D(ops.zero, amount, ops))
+        Direction.West -> copy(position = position + Vector2D(ops.neg(amount), ops.zero, ops))
+    }
+
+    fun rotate(rotationalOrientation: RotationalOrientation) = copy(direction = direction.rotate(rotationalOrientation))
 }
 
 
