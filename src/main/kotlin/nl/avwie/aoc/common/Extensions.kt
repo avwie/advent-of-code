@@ -21,4 +21,8 @@ fun List<Int>.toLong() : Long = this.fold(0L) { acc, d ->
     acc * 10 + d
 }
 
+fun List<Int>.toInt() : Int = this.fold(0) { acc, d ->
+    acc * 10 + d
+}
+
 fun <T> T.reduceRepeated(n: Int, block: (T) -> T): T = (0 until n).fold(this) { acc, _ -> block(acc) }
