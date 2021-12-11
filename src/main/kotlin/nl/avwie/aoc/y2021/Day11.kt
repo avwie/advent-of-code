@@ -16,13 +16,13 @@ object Day11 : Day<Int, Int> {
 
     override fun part2(): Int = ockieSequence(input).withIndex().first { v -> v.value.all { it.value.energy == 0 } }.index + 1
 
-    fun parse(lines: Sequence<String>): Map<Point, Octopus> = lines.flatMapIndexed { r, line ->
-        line.mapIndexed { c, char -> Point(c, r) to Octopus(char.digitToInt(), false) }
+    fun parse(lines: Sequence<String>): Map<Vector2D<Int>, Octopus> = lines.flatMapIndexed { r, line ->
+        line.mapIndexed { c, char -> Vector2D(c, r) to Octopus(char.digitToInt(), false) }
     }.toMap()
 
-    fun ockieSequence(map: Map<Point, Octopus>) = generateSequence(map) { step(it) }.drop(1)
+    fun ockieSequence(map: Map<Vector2D<Int>, Octopus>) = generateSequence(map) { step(it) }.drop(1)
 
-    fun step(map: Map<Point, Octopus>): Map<Point, Octopus>  {
+    fun step(map: Map<Vector2D<Int>, Octopus>): Map<Vector2D<Int>, Octopus>  {
         val acc = map.mapValues { (_, v) -> v.copy(energy = v.energy + 1) }.toMutableMap()
 
         while (acc.any { (_, ockie) -> ockie.mustFlash }) {
