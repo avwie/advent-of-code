@@ -3,15 +3,11 @@ package nl.avwie.aoc.common.search
 import java.util.*
 import kotlin.Comparator
 
-class AStarSearch<T, C>(private val context: Context<T, C>) : GraphSearch<T>(context) {
+class AStarSearch<T, C>(private val context: AStarContext<T, C>) : GraphSearch<T>(context){
+    interface AStarContext<T, C> : Context<T>, WithCost<T, C>, WithHeuristic<T, C>
 
     data class Node<T, C>(val item: T, val cost: C)
 
-    interface Context<T, C> : GraphSearch.Context<T>, Comparator<C> {
-        fun cost(node: T): C
-        fun heuristic(node: T): C
-        fun sum(a: C, b: C): C
-    }
     private val comparator =  Comparator<Node<T, C>> { a, b -> context.compare(a.cost, b.cost) }
     private val queue = PriorityQueue(comparator)
     private val visited = mutableSetOf<T>()
@@ -39,13 +35,13 @@ class AStarSearch<T, C>(private val context: Context<T, C>) : GraphSearch<T>(con
             compare: (C, C) -> Int,
             sum: (C, C) -> C): GraphSearch<T>
         {
-            val context = object : Context<T, C> {
-                override fun cost(node: T): C = cost(node)
-                override fun heuristic(node: T): C = heuristic(node)
-                override fun sum(a: C, b: C): C = sum(a, b)
+            val context = object : AStarContext<T, C> {
+                override fun cost(item: T): C = cost(item)
+                override fun heuristic(item: T): C = heuristic(item)
+                override fun sum(c1: C, c2: C): C = sum(c1, c2)
                 override fun found(item: T): Boolean = found(item)
                 override fun children(item: T): Iterable<T> = children(item)
-                override fun compare(o1: C, o2: C): Int = compare(o1, o2)
+                override fun compare(a: C, b: C): Int = compare(a, b)
         }
             return AStarSearch(context)
         }

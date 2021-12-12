@@ -2,7 +2,7 @@ package nl.avwie.aoc.common.search
 
 import java.util.*
 
-class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : GraphSearch.Context<T>, C : GraphSearch.WithCost<T> {
+class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : Context<T>, C : WithCost<T, Double> {
 
     private val comparator = Comparator { a: T, b: T ->
         (context.cost(a) to context.cost(b)).let { (ca, cb) -> ca.compareTo(cb) }
@@ -17,10 +17,12 @@ class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : Graph
 
     companion object {
         operator fun <T> invoke(found: (T) -> Boolean, children: (T) -> Iterable<T>, cost: (T) -> Double): GraphSearch<T> {
-            val context = object : Context<T>, WithCost<T> {
+            val context = object : Context<T>, WithCost<T, Double> {
                 override fun found(item: T): Boolean = found(item)
                 override fun children(item: T): Iterable<T> = children(item)
                 override fun cost(item: T): Double = cost(item)
+                override fun sum(c1: Double, c2: Double): Double = c1 + c2
+                override fun compare(a: Double, b: Double): Int = a.compareTo(b)
             }
             return DijkstraSearch(context)
         }
