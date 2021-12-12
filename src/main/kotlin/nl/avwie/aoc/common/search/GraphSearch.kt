@@ -1,6 +1,6 @@
 package nl.avwie.aoc.common.search
 
-abstract class TreeSearch<T>(private val context: Context<T>) {
+abstract class GraphSearch<T>(private val context: Context<T>) {
 
     interface Context<T> {
         fun found(item: T): Boolean
@@ -14,8 +14,10 @@ abstract class TreeSearch<T>(private val context: Context<T>) {
     abstract fun add(item: T)
     abstract fun remove(): T?
     abstract fun isEmpty(): Boolean
+    abstract fun clear()
 
-    fun search(init: T): Sequence<T> = sequence {
+    open fun search(init: T): Sequence<T> = sequence {
+        clear()
         add(init)
 
         while (!isEmpty()) {
