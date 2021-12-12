@@ -1,9 +1,14 @@
 package nl.avwie.aoc.common.search
 
 abstract class TreeSearch<T>(private val context: Context<T>) {
+
     interface Context<T> {
         fun found(item: T): Boolean
         fun children(item: T): Iterable<T>
+    }
+
+    interface WithCost<T> {
+        fun cost(item: T): Double
     }
 
     abstract fun add(item: T)

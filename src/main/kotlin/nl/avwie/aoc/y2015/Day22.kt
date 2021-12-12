@@ -1,11 +1,15 @@
 package nl.avwie.aoc.y2015
 
 import nl.avwie.aoc.common.Day
-import nl.avwie.aoc.common.search.Dijkstra
-import nl.avwie.aoc.common.search.Implementation
-import nl.avwie.aoc.common.search.WithCost
+import nl.avwie.aoc.common.search.dijkstraSearch
 
 object Day22 : Day<Int, Int> {
+
+    data class Node(val state: GameState, val magicUsed: List<Magic>) {
+        val magicAvailable = listOf(MagicMissile, Drain, Shield, Poison, Recharge)
+            .filter { it.cost <= state.player.mana }
+            .filter { magic -> state.activeMagic.filter { it.timer > 0 }.none { it.name == magic.name } }
+    }
 
     override fun part1(): Int = simulate(0)
 
@@ -15,10 +19,20 @@ object Day22 : Day<Int, Int> {
         val boss = Entity(55, 0, 0)
         val player = Entity(50, 0, 500)
         val initialState = GameState(player, boss, listOf(), 8, hardMode)
-        val search = Dijkstra(SearchImplementation())
-        val initialSearchNode = SearchImplementation.Node(initialState, listOf())
-        val result = search.search(initialSearchNode)
-        return result?.magicUsed?.sumOf { it.cost } ?: 0
+        val result = dijkstraSearch(
+            init = Node(initialState, listOf()),
+            found = { node -> !node.state.bossWins && node.state.playerWins },
+            children = { node ->
+                when {
+                    node.state.bossWins -> listOf()
+                    else -> node.magicAvailable.map { magic ->
+                        Node(node.state.turn(magic).turn(null), node.magicUsed + magic)
+                    }
+                }
+            },
+            cost = { node -> node.magicUsed.sumOf { it.cost }.toDouble() }
+        )
+        return result.first().magicUsed.sumOf { it.cost }
     }
 
     data class Entity(val hitPoints: Int, val armor: Int, val mana: Int)
@@ -95,30 +109,6 @@ object Day22 : Day<Int, Int> {
                 boss = actualBoss,
                 activeMagic = currentMagic.mapNotNull { it.next() }
             )
-        }
-    }
-
-    class SearchImplementation : Implementation<SearchImplementation.Node>, WithCost<SearchImplementation.Node> {
-
-        class Node(val state: GameState, val magicUsed: List<Magic>) {
-            val magicAvailable = listOf(MagicMissile, Drain, Shield, Poison, Recharge)
-                .filter { it.cost <= state.player.mana }
-                .filter { magic -> state.activeMagic.filter { it.timer > 0 }.none { it.name == magic.name } }
-        }
-
-        override fun isFound(item: Node): Boolean = !item.state.bossWins && item.state.playerWins
-
-        override fun next(item: Node): Iterable<Node> {
-            if (item.state.bossWins)
-                return listOf()
-
-            return item.magicAvailable.map { magic ->
-                Node(item.state.turn(magic).turn(null), item.magicUsed + magic)
-            }
-        }
-
-        override fun cost(item: Node): Double {
-            return item.magicUsed.sumOf { it.cost }.toDouble()
         }
     }
 }
