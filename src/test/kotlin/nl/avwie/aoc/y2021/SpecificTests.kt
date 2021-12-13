@@ -1,5 +1,6 @@
 package nl.avwie.aoc.y2021
 
+import nl.avwie.aoc.common.Vector2D
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

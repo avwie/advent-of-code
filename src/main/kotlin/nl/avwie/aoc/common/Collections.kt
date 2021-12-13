@@ -46,3 +46,11 @@ fun Iterable<Long>.minMax(): Pair<Long, Long> = this.fold(Long.MAX_VALUE to Long
 
 fun List<Long>.median(): Long = this.sorted().let { it[it.size / 2] }
 fun List<Int>.median(): Int = this.sorted().let { it[it.size / 2] }
+
+fun Iterable<Vector2D<Int>>.toImage(): String {
+    return (0 .. this.maxOf { it.y }).map { y ->
+        (0 .. this.maxOf { it.x }).map { x ->
+            if (this.contains(Vector2D(x, y))) '#' else '.'
+        }.joinToString("")
+    }.joinToString("\n")
+}
