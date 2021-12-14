@@ -142,4 +142,14 @@ class Year2021 {
         """.trimIndent()
         assertEquals(code, Day13.part2())
     }
+
+    @Test
+    fun `Day 14 - Part 1`() {
+        assertEquals(3247, Day14.part1())
+    }
+
+    @Test
+    fun `Day 14 - Part 2`() {
+        assertEquals(4110568157153, Day14.part2())
+    }
 }
