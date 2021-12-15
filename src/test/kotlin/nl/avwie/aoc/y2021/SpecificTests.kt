@@ -70,4 +70,24 @@ class SpecificTests {
         val basins = lowPoints.map { lowPoint -> Day9.basin(map, lowPoint) }
         assertEquals(1134, basins.sortedBy { -it.size }.take(3).fold(1) { acc, basin -> acc * basin.size})
     }
+
+    @Test
+    fun `Day 15 - lowest risk`() {
+        val input = """
+            1163751742
+            1381373672
+            2136511328
+            3694931569
+            7463417111
+            1319128137
+            1359912421
+            3125421639
+            1293138521
+            2311944581
+        """.trimIndent().lineSequence()
+
+        val map = Day15.parse(input)
+        val result = Day15.lowestRisk(map)
+        assertEquals(40, result)
+    }
 }

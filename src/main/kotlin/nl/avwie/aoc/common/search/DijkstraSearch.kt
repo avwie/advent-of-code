@@ -9,11 +9,19 @@ class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : Conte
     }
 
     private val queue = PriorityQueue(comparator)
+    private val visited = mutableSetOf<T>()
 
-    override fun add(item: T) { queue.add(item) }
+    override fun add(item: T) {
+        if (visited.contains(item)) return
+        queue.add(item)
+        visited.add(item)
+    }
     override fun remove(): T? = queue.remove()
     override fun isEmpty() = queue.isEmpty()
-    override fun clear() { queue.clear() }
+    override fun clear() {
+        visited.clear()
+        queue.clear()
+    }
 
     companion object {
         operator fun <T> invoke(found: (T) -> Boolean, children: (T) -> Iterable<T>, cost: (T) -> Double): GraphSearch<T> {
