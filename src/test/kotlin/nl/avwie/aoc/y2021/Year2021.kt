@@ -164,6 +164,16 @@ class Year2021 {
     }
 
     @Test
+    fun `Day 16 - Part 1`() {
+        assertEquals(943, Day16.part1())
+    }
+
+    @Test
+    fun `Day 16 - Part 2`() {
+        assertEquals(167737115857, Day16.part2())
+    }
+
+    @Test
     fun `Day 17 - Part 1`() {
         assertEquals(6903, Day17.part1())
     }
