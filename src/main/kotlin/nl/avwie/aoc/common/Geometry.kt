@@ -134,6 +134,14 @@ data class Rectangle<T>(val origin: Vector2D<T>, val area: Area<T>, private val 
 
     fun move(d: Vector2D<T>) : Rectangle<T> = copy(origin = origin + d)
 
+    fun contains(pos: Vector2D<T>): Boolean = when {
+        ops.compare(pos.x, x0) == -1 -> false
+        ops.compare(pos.y, y0) == -1 -> false
+        ops.compare(pos.x, x1) == 1 -> false
+        ops.compare(pos.y, y1) == 1 -> false
+        else -> true
+    }
+
     operator fun plus(other: Rectangle<T>): Rectangle<T> {
         val u0 = ops.min(x0, other.x0)
         val v0 = ops.min(y0, other.y0)

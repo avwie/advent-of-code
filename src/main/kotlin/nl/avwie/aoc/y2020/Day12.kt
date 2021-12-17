@@ -17,7 +17,7 @@ object Day12 : Day<Long, Long> {
     override fun part1(): Long = navigate(commands, State(ZERO, UNIT, ShipMode)).distance
     override fun part2(): Long = navigate(commands, State(ZERO, 10 + j, WaypointMode)).distance
 
-    fun parse(lines: Sequence<String>): List<Pair<String, Int>> =  Input.readInputRegex(lines, PATTERN)
+    fun parse(lines: Sequence<String>): List<Pair<String, Int>> =  Input.readLinesRegex(lines, PATTERN)
         .map { (_, command, data) -> command to data.toInt() }
         .toList()
 
