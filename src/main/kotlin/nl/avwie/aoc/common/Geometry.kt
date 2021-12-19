@@ -167,22 +167,23 @@ data class DirectedVector<T>(val position: Vector2D<T>, val direction: Direction
     fun rotate(rotationalOrientation: RotationalOrientation) = copy(direction = direction.rotate(rotationalOrientation))
 }
 
-data class Vec3D(val x: Int, val y: Int, val z: Int) {
-    fun rotate(rotation: Quaternion): Vec3D {
-        val q = rotation
-        val p = Quaternion.fromVec(this)
-        val qc = q.conj()
-        val r = Quaternion.hamilton(Quaternion.hamilton(q, p), qc)
-        return Vec3D(r.i.roundToInt(), r.j.roundToInt(), r.k.roundToInt())
-    }
+data class Vector3D<T>(val x: T, val y: T, val z: T, val ops: NumericalOps<T>) {
+    operator fun plus(other: Vector3D<T>) = Vector3D(ops.plus(x, other.x), ops.plus(y, other.y), ops.plus(z, other.z), ops)
+    operator fun minus(other: Vector3D<T>) = Vector3D(ops.minus(x, other.x), ops.minus(y, other.y), ops.minus(z, other.z), ops)
 
-    operator fun minus(other: Vec3D) = Vec3D(x - other.x, y - other.y, z - other.x)
-    operator fun plus(other: Vec3D) = Vec3D(x + other.x, y + other.y, z + other.z)
+    companion object {
+        val X = Vector3D(1.0, 0.0, 0.0)
+        val Y = Vector3D(0.0, 1.0, 0.0)
+        val Z = Vector3D(0.0, 0.0, 1.0)
+        inline operator fun <reified T> invoke(x: T, y: T, z: T) = Vector3D(x, y, z, NumericalOps.get())
+    }
 }
 
 data class Quaternion(val r: Double, val i: Double, val j: Double, val k: Double) {
 
     fun conj(): Quaternion = Quaternion(r, -i, -j, -k)
+
+    operator fun times(other: Quaternion) = hamilton(this, other)
 
     companion object {
         fun fromAngle(theta: Double, u1: Double, u2: Double, u3: Double): Quaternion {
@@ -191,9 +192,20 @@ data class Quaternion(val r: Double, val i: Double, val j: Double, val k: Double
             return Quaternion(c, u1 * s, u2 * s, u3 * s)
         }
 
-        fun fromVec(vec3D: Vec3D): Quaternion {
-            val (b, c, d) = vec3D
-            return Quaternion(0.0, b.toDouble(), c.toDouble(), d.toDouble())
+        fun fromAngle(theta: Double, vector3D: Vector3D<Double>): Quaternion {
+            return fromAngle(theta, vector3D.x, vector3D.y, vector3D.z)
+        }
+
+        fun rotation(x: Double, y: Double, z: Double): Quaternion {
+            val qx = fromAngle(x, Vector3D.X)
+            val qy = fromAngle(y, Vector3D.Y)
+            val qz = fromAngle(z, Vector3D.Z)
+            return qx * qy * qz
+        }
+
+        fun fromVector(vector3D: Vector3D<Double>): Quaternion {
+            val (b, c, d, _) = vector3D
+            return Quaternion(0.0, b, c, d)
         }
 
         fun hamilton(left: Quaternion, right: Quaternion): Quaternion {
@@ -207,6 +219,19 @@ data class Quaternion(val r: Double, val i: Double, val j: Double, val k: Double
             return Quaternion(a3, b3, c3, d3)
         }
     }
+}
+
+fun Vector3D<Double>.rotate(q: Quaternion): Vector3D<Double> {
+    val p = Quaternion.fromVector(this)
+    val (_, x, y, z) = q * p * q.conj()
+    return Vector3D(x, y, z)
+}
+
+fun Vector3D<Double>.rotate(i: Double, j: Double, k: Double): Vector3D<Double> {
+    val p = Quaternion.fromVector(this)
+    val q = Quaternion.rotation(i, j, k)
+    val (_, x, y, z) = q * p * q.conj()
+    return Vector3D(x, y, z)
 }
 
 

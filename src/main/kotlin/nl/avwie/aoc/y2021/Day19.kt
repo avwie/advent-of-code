@@ -11,7 +11,7 @@ object Day19 : Day<Int, Int> {
         TODO("Not yet implemented")
     }
 
-    fun parse(lines: Sequence<String>): List<Scanner> {
+    /*fun parse(lines: Sequence<String>): List<Scanner> {
         var acc = mutableListOf<Vec3D>()
         val scanners = mutableListOf<Scanner>()
         lines.forEach { line ->
@@ -48,5 +48,5 @@ object Day19 : Day<Int, Int> {
             }
             return null
         }
-    }
+    }*/
 }
