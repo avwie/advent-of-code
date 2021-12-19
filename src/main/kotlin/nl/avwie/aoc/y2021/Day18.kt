@@ -4,13 +4,16 @@ import nl.avwie.aoc.common.*
 import java.util.*
 
 object Day18 : Day<Int, Int> {
-    override fun part1(): Int {
-        TODO("Not yet implemented")
-    }
 
-    override fun part2(): Int {
-        TODO("Not yet implemented")
-    }
+    private val trees = Input.inputLines(2021, 18).map(::parse).toList()
+
+    override fun part1(): Int = trees.reduce { l, r -> l.clone() + r.clone() }.magnitude()
+
+    override fun part2(): Int = combinations(trees, 2)
+        .filter { (a, b) -> a != b }
+        .flatMap { (a, b) -> listOf(listOf(a.clone(), b.clone()), listOf(b.clone(), a.clone())) }
+        .map { (a, b) -> a + b }
+        .maxOf { it.magnitude() }
 
     fun parse(line: String): Tree {
         var lastDigit: Tree.Leaf? = null
@@ -43,6 +46,18 @@ object Day18 : Day<Int, Int> {
         fun explode(): Boolean
         fun split(): Boolean
         fun flatten(): List<Tree>
+        operator fun plus(other: Tree): Tree
+        fun magnitude(): Int
+
+        fun reduce(): Tree {
+            var finished = false
+            while (!finished) {
+                finished = (explode() || split()) == false
+            }
+            return this
+        }
+
+        fun clone() = parse(toString())
 
         class Branch(var left: Tree?, var right: Tree?, override var parent: Branch? = null): Tree {
             private val explodable: Boolean get() = depth >= 4 && left is Leaf && right is Leaf
@@ -72,8 +87,20 @@ object Day18 : Day<Int, Int> {
             }
 
             override fun split(): Boolean = listOfNotNull(left, right).any { it.split() }
-
             override fun flatten(): List<Tree> = listOf(this) + listOfNotNull(left, right).flatMap { it.flatten() }
+            override fun plus(other: Tree): Tree {
+                val newParent = Branch(this, other)
+                this.parent = newParent
+                other.parent = newParent
+
+                val currentRight = this.flatten().filterIsInstance<Leaf>().lastOrNull()
+                val newLeft = other.flatten().filterIsInstance<Leaf>().firstOrNull()
+                currentRight?.also { it.right = newLeft }
+                newLeft?.also { it.left = currentRight }
+                return newParent.reduce()
+            }
+
+            override fun magnitude(): Int = 3 * (left?.magnitude() ?: 0) + 2 * (right?.magnitude() ?: 0)
         }
 
         class Leaf(var value: Int, override var parent: Branch? = null, var left: Leaf? = null, var right: Leaf? = null): Tree {
@@ -81,6 +108,8 @@ object Day18 : Day<Int, Int> {
             override fun toString() = value.toString()
             override fun flatten(): List<Tree> = listOf(this)
             override fun explode(): Boolean = false
+            override fun plus(other: Tree): Tree = this
+            override fun magnitude(): Int = value
 
             override fun split(): Boolean {
                 if (value < 10) return false
