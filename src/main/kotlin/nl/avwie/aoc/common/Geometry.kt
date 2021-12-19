@@ -170,6 +170,8 @@ data class DirectedVector<T>(val position: Vector2D<T>, val direction: Direction
 data class Vector3D<T>(val x: T, val y: T, val z: T, val ops: NumericalOps<T>) {
     operator fun plus(other: Vector3D<T>) = Vector3D(ops.plus(x, other.x), ops.plus(y, other.y), ops.plus(z, other.z), ops)
     operator fun minus(other: Vector3D<T>) = Vector3D(ops.minus(x, other.x), ops.minus(y, other.y), ops.minus(z, other.z), ops)
+    operator fun times(scalar: T) = Vector3D(ops.times(scalar, x), ops.times(scalar, y), ops.times(scalar, z), ops)
+    operator fun unaryMinus() = Vector3D(ops.neg(x), ops.neg(y), ops.neg(z), ops)
 
     companion object {
         val X = Vector3D(1.0, 0.0, 0.0)
@@ -186,6 +188,23 @@ data class Quaternion(val r: Double, val i: Double, val j: Double, val k: Double
     operator fun times(other: Quaternion) = hamilton(this, other)
 
     companion object {
+
+        val UNIT = Quaternion(1.0, 0.0, 0.0, 0.0)
+
+        val rotations = (listOf(
+            UNIT,
+            rotation(PI / 2, 0.0, 0.0),
+            rotation(PI, 0.0, 0.0),
+            rotation(3 * PI / 2, 0.0, 0.0),
+            rotation(0.0, PI / 2, 0.0),
+            rotation(0.0, 3 * PI / 2, 0.0)
+        ) to listOf(
+            rotation(0.0, 0.0, 0.0),
+            rotation(0.0, 0.0, PI / 2),
+            rotation(0.0, 0.0, PI),
+            rotation(0.0, 0.0, 3 * PI / 2)
+        )).let { (a, b) -> product(a, b) { q1, q2 -> q1 * q2} }
+
         fun fromAngle(theta: Double, u1: Double, u2: Double, u3: Double): Quaternion {
             val c = cos(theta / 2)
             val s = sin(theta / 2)
@@ -233,6 +252,14 @@ fun Vector3D<Double>.rotate(i: Double, j: Double, k: Double): Vector3D<Double> {
     val (_, x, y, z) = q * p * q.conj()
     return Vector3D(x, y, z)
 }
+
+fun Vector3D<Double>.roundToInt(epsilon: Double = 1E-9): Vector3D<Int> {
+    val (x, y, z, _) = this
+    require(listOf(x, y, z).none { abs(x - x.roundToInt()) > epsilon })
+    return Vector3D(x.roundToInt(), y.roundToInt(), z.roundToInt())
+}
+
+fun Vector3D<Int>.toDouble() = Vector3D(x.toDouble(), y.toDouble(), z.toDouble())
 
 
 fun Vector2D<Int>.neighbors(diagonal: Boolean = true): List<Vector2D<Int>> =

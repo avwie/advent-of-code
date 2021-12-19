@@ -60,5 +60,14 @@ class QuaternionTests {
         assertEquals(x.x, x2.x, 1E-6)
         assertEquals(0.0, x2.y, 1E-6)
         assertEquals(0.0, x2.z, 1E-6)
+        assertEquals(x, x.rotate(Quaternion.UNIT))
+    }
+
+    @Test
+    fun rotationsTest() {
+        val rotations = Quaternion.rotations
+        val xs = rotations.map { Vector3D.X.rotate(it).roundToInt() }.distinct()
+        val ys = rotations.map { Vector3D.Y.rotate(it).roundToInt() }.distinct()
+        val zs = rotations.map { Vector3D.Z.rotate(it).roundToInt() }.distinct()
     }
 }
