@@ -1,5 +1,8 @@
 package nl.avwie.aoc.y2021
 
+import nl.avwie.aoc.common.Vec3D
+import nl.avwie.aoc.common.combinations
+import kotlin.math.PI
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -28,5 +31,19 @@ class SpecificTests {
         p1.split()
         p1.explode()
         assertEquals("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", p1.toString())
+    }
+
+    @Test
+    fun `Day 19 - parse`() {
+        val input = """
+            --- scanner 0 ---
+            -1,-1,1
+            -2,-2,2
+            -3,-3,3
+            -2,-3,1
+            5,6,-4
+            8,0,7
+        """.trimIndent().lineSequence()
+        val scanners = Day19.parse(input)
     }
 }

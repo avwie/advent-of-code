@@ -1,7 +1,7 @@
 package nl.avwie.aoc.common
 
 import java.lang.IllegalArgumentException
-import kotlin.math.abs
+import kotlin.math.*
 
 enum class RotationalOrientation {
     Collinear,
@@ -165,6 +165,48 @@ data class DirectedVector<T>(val position: Vector2D<T>, val direction: Direction
     }
 
     fun rotate(rotationalOrientation: RotationalOrientation) = copy(direction = direction.rotate(rotationalOrientation))
+}
+
+data class Vec3D(val x: Int, val y: Int, val z: Int) {
+    fun rotate(rotation: Quaternion): Vec3D {
+        val q = rotation
+        val p = Quaternion.fromVec(this)
+        val qc = q.conj()
+        val r = Quaternion.hamilton(Quaternion.hamilton(q, p), qc)
+        return Vec3D(r.i.roundToInt(), r.j.roundToInt(), r.k.roundToInt())
+    }
+
+    operator fun minus(other: Vec3D) = Vec3D(x - other.x, y - other.y, z - other.x)
+    operator fun plus(other: Vec3D) = Vec3D(x + other.x, y + other.y, z + other.z)
+}
+
+data class Quaternion(val r: Double, val i: Double, val j: Double, val k: Double) {
+
+    fun conj(): Quaternion = Quaternion(r, -i, -j, -k)
+
+    companion object {
+        fun fromAngle(theta: Double, u1: Double, u2: Double, u3: Double): Quaternion {
+            val c = cos(theta / 2)
+            val s = sin(theta / 2)
+            return Quaternion(c, u1 * s, u2 * s, u3 * s)
+        }
+
+        fun fromVec(vec3D: Vec3D): Quaternion {
+            val (b, c, d) = vec3D
+            return Quaternion(0.0, b.toDouble(), c.toDouble(), d.toDouble())
+        }
+
+        fun hamilton(left: Quaternion, right: Quaternion): Quaternion {
+            val (a1, b1, c1, d1) = left
+            val (a2, b2, c2, d2) = right
+
+            val a3 = a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2
+            val b3 = a1 * b2 + b1 * a2 + c1 * d2 - d1 * c2
+            val c3 = a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2
+            val d3 = a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2
+            return Quaternion(a3, b3, c3, d3)
+        }
+    }
 }
 
 
