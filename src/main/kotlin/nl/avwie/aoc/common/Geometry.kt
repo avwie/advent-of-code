@@ -261,9 +261,18 @@ fun Vector3D<Double>.roundToInt(epsilon: Double = 1E-9): Vector3D<Int> {
 
 fun Vector3D<Int>.toDouble() = Vector3D(x.toDouble(), y.toDouble(), z.toDouble())
 
-
 fun Vector2D<Int>.neighbors(diagonal: Boolean = true): List<Vector2D<Int>> =
     when {
         diagonal -> offsets
         else -> offsets.filter { (dx, dy) -> dx == 0 || dy == 0 }
     }.map { (dx, dy) -> copy(x = x + dx, y = y + dy) }
+
+fun Iterable<Vector2D<Int>>.bounds(): Rectangle<Int> {
+    val xs = this.map { it.x }
+    val ys = this.map { it.y }
+    val minX = xs.minOrNull()!!
+    val minY = ys.minOrNull()!!
+    val maxX = xs.maxOrNull()!!
+    val maxY = ys.maxOrNull()!!
+    return Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1, Int32)
+}
