@@ -26,3 +26,19 @@ interface SquareMap<T> : Map<T> {
 
     data class Default<T>(override val values: List<T>): SquareMap<T>
 }
+
+class CountingSet<T> {
+    private val counts = mutableMapOf<T, Long>()
+
+    fun add(item: T, count: Long): Long {
+        counts[item] = count(item) + count
+        return count(item)
+    }
+
+    fun add(item: T): Long = add(item, 1)
+    fun count(item: T): Long = counts[item] ?: 0L
+    fun remove(item: T): Long = counts.remove(item) ?: 0L
+    fun items(): List<Pair<T, Long>> = counts.asIterable().map { (k, v) -> k to v }
+    fun isEmpty() = counts.isEmpty()
+    fun isNotEmpty() = counts.isNotEmpty()
+}
