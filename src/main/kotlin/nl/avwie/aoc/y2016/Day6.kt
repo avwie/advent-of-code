@@ -4,11 +4,8 @@ import nl.avwie.aoc.common.*
 
 object Day6 : Day<String, String> {
 
-    override fun part1(): String {
-        TODO("Not yet implemented")
-    }
+    val input = Input.inputLines(2016, 6).map { it.toList() }.toList().transpose()
 
-    override fun part2(): String {
-        TODO("Not yet implemented")
-    }
+    override fun part1(): String = input.map { it.mostCommonOrNull()!! }.joinToString("")
+    override fun part2(): String = input.map { it.leastCommonOrNull()!! }.joinToString("")
 }

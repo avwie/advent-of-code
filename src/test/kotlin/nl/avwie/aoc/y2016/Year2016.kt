@@ -55,4 +55,24 @@ class Year2016 {
         assertEquals("863dde27", Day5.part2())
     }
 
+    @Test
+    fun `Day 6 - Part 1`() {
+        assertEquals("cyxeoccr", Day6.part1())
+    }
+
+    @Test
+    fun `Day 6 - Part 2`() {
+        assertEquals("batwpask", Day6.part2())
+    }
+
+    @Test
+    fun `Day 7 - Part 1`() {
+        assertEquals(115, Day7.part1())
+    }
+
+    @Test
+    fun `Day 7 - Part 2`() {
+        assertEquals(0, Day7.part2())
+    }
+
 }

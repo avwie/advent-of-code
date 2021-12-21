@@ -6,4 +6,10 @@ import nl.avwie.aoc.common.toHex
 import kotlin.test.Test
 
 class SpecificTests {
+
+    @Test
+    fun regex() {
+        val input = "ssslcrpxsmiykoe[fdlvqqkbsioczngko]kdsvlpskfxoaewwyk[yvxyjlpxjzupvww]ulkzmnjwcmbxlcnvenm[npytehaooidsygftoh]dfqgeqwewowffpdm"
+
+    }
 }

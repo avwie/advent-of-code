@@ -31,6 +31,11 @@ fun <T> Iterable<T>.mostCommonOrNull(): T? = this
     .maxByOrNull { (_, l) -> l.size }
     ?.key
 
+fun <T> Iterable<T>.leastCommonOrNull(): T? = this
+    .groupBy { it }
+    .minByOrNull { (_, l) -> l.size }
+    ?.key
+
 fun <T> Sequence<T>.takeWhileInclusive(pred: (T) -> Boolean): Sequence<T> {
     var shouldContinue = true
     return takeWhile {
@@ -54,3 +59,10 @@ fun Iterable<Vector2D<Int>>.toImage(): String {
         }.joinToString("")
     }.joinToString("\n")
 }
+
+fun <T> List<List<T>>.transpose(): List<List<T>> =
+    this[0].indices.map { c ->
+        this.indices.map { r ->
+            this[r][c]
+        }
+    }
