@@ -13,7 +13,7 @@ object Day7 : Day<Int, Int> {
 
     private fun supportsSSL(str: String): Boolean {
         val hypernets = HYPERNET.findAll(str).toList()
-        
+        TODO()
     }
 
 }
