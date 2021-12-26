@@ -2,7 +2,7 @@ package nl.avwie.aoc.common.search
 
 import java.util.*
 
-class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : Context<T>, C : WithCost<T, Double> {
+class DijkstraSearch<T, C>(private val context: C) : GraphSearch<T>(context) where C : Context<T>, C : WithCost<T, Double> {
 
     private val comparator = Comparator { a: T, b: T ->
         (context.cost(a) to context.cost(b)).let { (ca, cb) -> ca.compareTo(cb) }
@@ -13,6 +13,7 @@ class DijkstraSearch<T, C>(context: C) : GraphSearch<T>(context) where C : Conte
 
     override fun add(item: T) {
         if (visited.contains(item)) return
+
         queue.add(item)
         visited.add(item)
     }

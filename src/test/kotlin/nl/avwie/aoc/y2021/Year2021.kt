@@ -225,11 +225,36 @@ class Year2021 {
 
     @Test
     fun `Day 22 - Part 1`() {
-        assertEquals(926610, Day22.part1())
+        assertEquals(615700, Day22.part1())
     }
 
     @Test
     fun `Day 22 - Part 2`() {
-        assertEquals(146854918035875, Day22.part2())
+        assertEquals(0L, Day22.part2())
+    }
+
+    /*@Test
+    fun `Day 23 - Part 1`() {
+        assertEquals(926610, Day23.part1())
+    }
+
+    @Test
+    fun `Day 23 - Part 2`() {
+        assertEquals(146854918035875, Day23.part2())
+    }
+
+    @Test
+    fun `Day 24 - Part 1`() {
+        assertEquals(926610, Day24.part1())
+    }
+
+    @Test
+    fun `Day 24 - Part 2`() {
+        assertEquals(146854918035875, Day24.part2())
+    }*/
+
+    @Test
+    fun `Day 25 - Part 1`() {
+        assertEquals(926610, Day25.part1())
     }
 }

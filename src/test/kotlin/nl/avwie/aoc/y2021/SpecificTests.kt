@@ -5,8 +5,21 @@ import org.junit.jupiter.api.Test
 class SpecificTests {
 
     @Test
-    fun cuboid() {
-        val r = Day22.parse("on x=10..12,y=10..12,z=10..12")
+    fun herds() {
+        val input = """
+            v...>>.vv>
+            .vv>>.vv..
+            >>.>v>...v
+            >>v>>.>.v.
+            v>v.vv.v..
+            >.>>..v...
+            .vv..>.>v.
+            v.v..>>v.v
+            ....v..v.>
+        """.trimIndent()
+
+        val herds = Day25.parse(input.lines())
+        val movement = Day25.movement(herds).windowed(2).withIndex().first { (_, h) -> h[0] == h[1] }.index + 1
         println()
     }
 }

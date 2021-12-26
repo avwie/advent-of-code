@@ -259,6 +259,13 @@ fun Vector3D<Double>.roundToInt(epsilon: Double = 1E-9): Vector3D<Int> {
     return Vector3D(x.roundToInt(), y.roundToInt(), z.roundToInt())
 }
 
+fun Vector2D<Int>.advance(direction: Direction, amount: Int) = this + when (direction) {
+    Direction.North -> Vector2D(ops.zero, ops.neg(amount), ops)
+    Direction.East -> Vector2D(amount, ops.zero, ops)
+    Direction.South -> Vector2D(ops.zero, amount, ops)
+    Direction.West -> Vector2D(ops.neg(amount), ops.zero, ops)
+}
+
 fun Vector3D<Int>.toDouble() = Vector3D(x.toDouble(), y.toDouble(), z.toDouble())
 
 fun Vector2D<Int>.neighbors(diagonal: Boolean = true): List<Vector2D<Int>> =
