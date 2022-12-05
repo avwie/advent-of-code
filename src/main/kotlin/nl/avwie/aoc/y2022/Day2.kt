@@ -30,7 +30,7 @@ object Day2 : Day<Long, Long> {
                         else -> c
                     }
                 }
-        }
+        }.toList()
 
     private fun totalScore(opponent: Char, player: Char) = result(opponent, player) + value(player)
 

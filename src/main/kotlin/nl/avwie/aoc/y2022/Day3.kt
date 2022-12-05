@@ -25,5 +25,5 @@ object Day3 : Day<Int, Int> {
     private fun Sequence<String>.parse() =
         map { line ->
             line.map { char -> char.code - if (char.isLowerCase()) 96 else 38  }
-        }
+        }.toList()
 }
