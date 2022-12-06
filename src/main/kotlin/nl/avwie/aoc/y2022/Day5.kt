@@ -3,8 +3,6 @@ import nl.avwie.aoc.common.Input
 import nl.avwie.aoc.common.dropUntil
 import nl.avwie.aoc.common.transpose
 
-typealias State = List<ArrayDeque<Char>>
-
 object Day5 : Day<String, String> {
 
     data class Move(val amount: Int, val from: Int, val to: Int) {
@@ -46,7 +44,7 @@ object Day5 : Day<String, String> {
         .map { stack -> stack.first() }
         .joinToString("")
 
-    private fun applyMoves(state: State, moves: Iterable<Move>, shouldBuffer: Boolean) {
+    private fun applyMoves(state: List<ArrayDeque<Char>>, moves: Iterable<Move>, shouldBuffer: Boolean) {
         moves.forEach { move ->
             val buffer = ArrayDeque<Char>()
             repeat(move.amount) {
