@@ -45,6 +45,15 @@ fun <T> Sequence<T>.takeWhileInclusive(pred: (T) -> Boolean): Sequence<T> {
     }
 }
 
+fun <T> Sequence<T>.dropUntil(pred: (T) -> Boolean): Sequence<T> {
+    var shouldContinue = true
+    return dropWhile {
+        val result = shouldContinue
+        shouldContinue = !pred(it)
+        result
+    }
+}
+
 fun Iterable<Long>.minMax(): Pair<Long, Long> = this.fold(Long.MAX_VALUE to Long.MIN_VALUE) { (min, max), v ->
     kotlin.math.min(min, v) to kotlin.math.max(max, v)
 }
