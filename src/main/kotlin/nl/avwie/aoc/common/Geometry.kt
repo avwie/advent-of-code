@@ -29,6 +29,8 @@ enum class Direction(val angle: Int) {
     }
 
     companion object {
+        val All = listOf(North, East, South, West)
+
         fun get(p1: Vector2D<Int>, p2: Vector2D<Int>): Direction? = when (Alignment.get(p1, p2)) {
             Alignment.Horizontal -> if (p1.x < p2.x) West else East
             Alignment.Vertical -> if (p1.y < p2.y) South else North
