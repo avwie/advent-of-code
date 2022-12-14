@@ -1,5 +1,13 @@
 package nl.avwie.aoc.common
 
+import kotlin.math.max
+
+fun <T> Collection<T>.zipWithLongest(other: Collection<T>): Collection<Pair<T?, T?>> {
+    return (0 until max(this.size, other.size)).map { index ->
+        Pair(this.elementAtOrNull(index), other.elementAtOrNull(index))
+    }
+}
+
 fun <T> combinations(seed: Iterable<T>, count: Int): List<List<T>> {
 
     fun inner(acc: List<List<T>>, remaining: Int): List<List<T>> = when (remaining) {
