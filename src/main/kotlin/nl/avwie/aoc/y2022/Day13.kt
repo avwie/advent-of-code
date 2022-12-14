@@ -17,7 +17,7 @@ object Day13 : Day<Int, Int> {
         .sumOf { (index, _) -> index }
 
     override fun part2(): Int = (listOf(parsePacket("[[2]]"), parsePacket("[[6]]")) + packets)
-        .sortedWith(Data.Comparator)
+        .sortedWith { a, b -> compare(a, b) }
         .mapIndexed { i, data -> (i + 1) to data.toString() }
         .filter { (_, str) -> str == "[[2]]" || str == "[[6]]" }
         .fold(1) { acc, (index, _) -> acc * index}
@@ -68,7 +68,6 @@ object Day13 : Day<Int, Int> {
 
         left is Array && right is Array -> left.items
             .zipWithLongest(right.items)
-            //.firstNotNullOfOrNull { (left, right) -> compare(left, right) }
             .map { (left, right) -> compare(left, right) }
             .firstOrNull { it != 0 } ?: 0
 
@@ -77,12 +76,7 @@ object Day13 : Day<Int, Int> {
         else -> throw IllegalStateException()
     }
 
-    sealed interface Data {
-        object Comparator : kotlin.Comparator<Data> {
-            override fun compare(o1: Data?, o2: Data?): Int = Day13.compare(o1, o2)
-        }
-    }
-    
+    sealed interface Data
     data class Array(val items: List<Data>) : Data {
         override fun toString(): String {
             return "[${items.joinToString(",")}]"
