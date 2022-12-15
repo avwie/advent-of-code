@@ -1,6 +1,5 @@
 package nl.avwie.aoc.common
 
-import java.lang.IllegalArgumentException
 import kotlin.math.*
 
 enum class RotationalOrientation {
@@ -118,6 +117,19 @@ data class Line<T>(val start: Vector2D<T>, val end: Vector2D<T>) {
         val o4 = Vector2D.orientation(p2, q2, q1, ops)
 
         return (o1 != o2 && o3 != o4)
+    }
+}
+
+data class Polygon<T>(val nodes: List<Vector2D<T>>) {
+    val ops = nodes.first().ops
+
+    val points = nodes
+        .windowed(2)
+        .flatMap { (fro, to) -> fro.rangeTo(to).toList() }
+        .distinct()
+
+    companion object {
+        operator fun <T> invoke(vararg points: Vector2D<T>) = Polygon(points.toList())
     }
 }
 
