@@ -1,5 +1,9 @@
 package nl.avwie.aoc.common
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 interface Map<T> {
@@ -41,4 +45,35 @@ class CountingSet<T> {
     fun items(): List<Pair<T, Long>> = counts.asIterable().map { (k, v) -> k to v }
     fun isEmpty() = counts.isEmpty()
     fun isNotEmpty() = counts.isNotEmpty()
+}
+
+data class Interval(val from: Int, val to: Int) {
+
+    init {
+        require(to >= from)
+    }
+
+    fun size() = to - from + 1
+    fun contains(value: Int) = value in from .. to
+    fun overlaps(other: Interval) = contains(other.from) || contains(other.to)
+
+    companion object {
+        fun merge(intervals: Iterable<Interval>): Set<Interval> {
+            val acc = mutableSetOf<Interval>()
+            intervals.forEach { interval ->
+                when {
+                    acc.isEmpty() -> acc.add(interval)
+                    else -> {
+                        val match = acc.firstOrNull { it.overlaps(interval) }
+                        if (match != null) {
+                            acc.remove(match)
+                            acc.add(Interval(from = min(match.from, interval.from), to = max(match.to, interval.to)))
+                        } else {
+                            acc.add(interval)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

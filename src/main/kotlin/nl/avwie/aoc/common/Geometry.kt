@@ -280,6 +280,8 @@ fun Vector2D<Int>.advance(direction: Direction, amount: Int) = this + when (dire
     Direction.West -> Vector2D(ops.neg(amount), ops.zero, ops)
 }
 
+fun Vector2D<Int>.manhattan(other: Vector2D<Int>) = abs(this.x - other.x) + abs(this.y - other.y)
+
 fun Vector3D<Int>.toDouble() = Vector3D(x.toDouble(), y.toDouble(), z.toDouble())
 
 fun Vector2D<Int>.neighbors(diagonal: Boolean = true): List<Vector2D<Int>> =
