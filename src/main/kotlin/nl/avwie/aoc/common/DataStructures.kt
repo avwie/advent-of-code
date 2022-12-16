@@ -55,7 +55,9 @@ data class Interval(val from: Int, val to: Int) {
 
     fun size() = to - from + 1
     fun contains(value: Int) = value in from .. to
-    fun overlaps(other: Interval) = contains(other.from) || contains(other.to)
+
+    fun overlaps(other: Interval) =
+        this.contains(other.from) || this.contains(other.to) || other.contains(this.from) || other.contains(this.to)
 
     companion object {
         fun merge(intervals: Iterable<Interval>): Set<Interval> {
@@ -74,6 +76,10 @@ data class Interval(val from: Int, val to: Int) {
                     }
                 }
             }
+            if (acc.size != intervals.count()) return merge(acc)
+            return acc
         }
     }
 }
+
+fun Iterable<Interval>.merge() = Interval.merge(this)

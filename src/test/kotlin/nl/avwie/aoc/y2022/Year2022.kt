@@ -160,6 +160,6 @@ class Year2022 {
 
     @Test
     fun `Day 15 - Part 2`() {
-        assertEquals(26375, Day15.part2())
+        assertEquals(10553942650264L, Day15.part2())
     }
 }

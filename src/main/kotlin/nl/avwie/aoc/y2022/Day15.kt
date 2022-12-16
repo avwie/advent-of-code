@@ -1,20 +1,15 @@
-import nl.avwie.aoc.common.Day
-import nl.avwie.aoc.common.Input
-import nl.avwie.aoc.common.Vector2D
-import nl.avwie.aoc.common.manhattan
+import nl.avwie.aoc.common.*
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
-object Day15 : Day<Int, Int> {
+object Day15 : Day<Int, Long> {
 
     val REGEX = Regex(".*x=(-?\\d+), y=(-?\\d+).*x=(-?\\d+), y=(-?\\d+)")
     val pairs = parse(Input.inputLines(2022, 15))
 
     override fun part1(): Int = getBlockedCount(pairs, 2000000)
 
-    override fun part2(): Int {
-        TODO("Not yet implemented")
+    override fun part2(): Long = findPosition(pairs, 4000000).let {
+        it.x * 4000000L + it.y
     }
 
     fun getBlockedCount(pairs: List<Pair<Vector2D<Int>, Vector2D<Int>>>, ycoord: Int): Int {
@@ -24,21 +19,26 @@ object Day15 : Day<Int, Int> {
             .map { it.x }
             .toSet()
 
-        val (left, right) = pairs.fold(Int.MAX_VALUE to Int.MIN_VALUE) { (left, right), pair ->
-            pair.horizontalEdge(ycoord)?.let {
-                min(left, it.first) to max(right, it.second)
-            } ?: (left to right)
-        }
+        val intervals = pairs
+            .mapNotNull { pair -> pair.horizontalEdge(ycoord) }
+            .merge()
 
-        return (left..right)
-            .map { Vector2D(it, ycoord) }
-            .filter { position ->
-                !beacons.contains(position.x)
-            }.count { position ->
-                pairs.any { pair ->
-                    pair.isInRange(position)
-                }
+        return intervals.sumOf { it.size() } - beacons.size
+    }
+
+    fun findPosition(pairs: List<Pair<Vector2D<Int>, Vector2D<Int>>>, bounds: Int): Vector2D<Int> {
+        val (y, intervals) = (0 .. bounds)
+            .asSequence()
+            .mapIndexed { i, ycoord ->
+                i to pairs
+                    .mapNotNull { pair -> pair.horizontalEdge(ycoord) }
+                    .merge()
             }
+            .filter { it.second.size == 2 }
+            .first()
+
+        val x = intervals.sortedBy { it.from }.first().to + 1
+        return Vector2D(x, y)
     }
 
     fun parse(lines: Sequence<String>): List<Pair<Vector2D<Int>, Vector2D<Int>>> = lines
@@ -56,7 +56,7 @@ object Day15 : Day<Int, Int> {
         val remaining = coverage - distance
         when {
             distance > coverage -> null
-            else -> sensor.x - remaining to sensor.x + remaining
+            else -> Interval(sensor.x - remaining, sensor.x + remaining)
         }
     }
 }

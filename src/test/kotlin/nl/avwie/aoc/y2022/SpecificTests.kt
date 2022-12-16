@@ -2,6 +2,7 @@ package nl.avwie.aoc.y2022
 
 import Day15.horizontalEdge
 import Day15.isInRange
+import nl.avwie.aoc.common.Input
 import nl.avwie.aoc.common.Vector2D
 import org.junit.jupiter.api.Test
 
@@ -28,12 +29,10 @@ class SpecificTests {
     @Test
     fun sensors() {
         val pairs = Day15.parse(input)
-        val pair = pairs[6]
-        val r = (0 .. 15)
-            .map { Vector2D(it, 10) }
-            .map { pair.isInRange(it) }
-
-        val edge = pair.horizontalEdge(11)
-        val count = Day15.getBlockedCount(pairs, 10)
+        //val pairs = Day15.parse(Input.inputLines(2022, 15))
+        val r = Day15.findPosition(pairs, 20).let {
+            it.x * 4000000 + it.y
+        }
+        //val r = Day15.findPosition(pairs, 4000000)
     }
 }
